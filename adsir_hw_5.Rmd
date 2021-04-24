@@ -7,3 +7,38 @@ output: html_document
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
+
+```{r warning = FALSE, message = FALSE}
+library(countrycode)
+library(tidyverse)
+library(sf)
+library(rnaturalearth)
+library(rnaturalearthdata)
+library(rgeos)
+```
+
+```{r}
+# finding coordinates for every country in the world dataset
+world <- ne_countries(scale = "medium", returnclass = "sf")
+coordinates <- cbind(world, st_coordinates(st_centroid(world$geometry)))
+coordinates <- 
+  coordinates %>%
+  select(name,sovereignt, type, X,Y)
+```
+
+# Exercises
+
+**Question 1: Convert the name of a country of choice into five different languages of your choice. Use the world dataset and use countryname. You can also use ‘codelist’ to look at different destinations. (Remove eval=FALSE)**
+
+```{r}
+question1 <-
+  world %>%
+  filter(name == 'Spain')
+
+#Repeat the code down below for 4 other languages.
+countryname(question1$name, 'cldr.name.uk')
+countryname(question1$name, 'cldr.name.bn')
+countryname(question1$name, 'cldr.name.tk')
+countryname(question1$name, 'cldr.name.ja')
+countryname(question1$name, 'cldr.name.as')
+```
